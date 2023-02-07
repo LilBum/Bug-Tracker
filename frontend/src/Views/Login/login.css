@@ -1,0 +1,42 @@
+.loginBG {
+    width: 100vw;
+    height: 105vh;
+    background: url("../../images/bg3.png");
+    background-size: cover;
+    margin-left: -1.4vh;
+    margin-top: -20px;
+    background-attachment: fixed;
+    position: absolute;
+}
+
+.login-panel {
+    background-color: var(--prime-color);
+    width: 30vw;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 25vh auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-panel h1 {
+    width: 100%;
+}
+
+.login-panel input {
+    width: 70%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    padding-left: 5px;
+}
+
+body {
+    overflow-y: hidden;
+    /* Hide vertical scrollbar */
+    overflow-x: hidden;
+    /* Hide horizontal scrollbar */
+}

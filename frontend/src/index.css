@@ -1,0 +1,29 @@
+html {
+    --prime-color: #264e70;
+    color: white;
+    --card-color: #cae1ff;
+}
+
+button {
+    background: #ef6c57;
+    border-radius: 5px;
+    padding: 5px 20px;
+    color: white;
+    font: normal bold 18px "Open Sans", sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    transition: all 0.2s;
+    background-color: #9c3829;
+}
+
+.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    grid-column: 2;
+    margin-right: -250px;
+}
