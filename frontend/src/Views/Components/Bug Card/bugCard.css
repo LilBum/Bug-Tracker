@@ -8,8 +8,13 @@
     margin-top: 2%;
 }
 
-
 .bug-card:hover {
     transition: all 0.3s;
     transform: scale(1.05);
+}
+
+.bug-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: calc(26% - 20px);
 }
