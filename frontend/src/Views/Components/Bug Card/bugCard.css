@@ -1,3 +1,7 @@
+body {
+    overflow-y:scroll;
+}
+
 .bug-card {
     background: var(--card-color);
     box-shadow: 2px 2px 2px var(--prime-color);
@@ -6,10 +10,17 @@
     min-width: 275px;
     min-height: 200px;
     margin-top: 2%;
+    margin-right: -150px;
+    margin-left: 90px;
 }
-
 
 .bug-card:hover {
     transition: all 0.3s;
     transform: scale(1.05);
+}
+
+.bug-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: calc(26.5% - 20px);
 }

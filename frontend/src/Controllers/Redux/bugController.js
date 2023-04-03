@@ -1,44 +1,19 @@
-import bugModel from 'C:/Users/oneco/OneDrive/Desktop/Bug-Tracker/frontend/src/Models/bugModel.js';
+import bugModel from '../../Models/bugModel';
 
-export function getAllBugs() {
-    let data = [];
+export async function getAllBugs() {
+  try {
+    const response = await fetch('/api/bug');
+    const data = await response.json();
 
-    data.push(new bugModel({
-        id: 324545,
-        name: "Close doesn't work",
-        description: "Pressing the close button will not do anything",
-        steps: "Press close button",
-        version: "1.0",
-        priority: 3,
-        assigned: "Alex Urs-Badet",
-        creator: "Alex Urs-Badet",
-        time: "10:30 PM"
-    }))
-    data.push(new bugModel({
-        id: 234233,
-        name: "Mark Complete bug",
-        description: "Mark complete button does not do anything",
-        steps: "Press the mark complete button",
-        version: "1.0",
-        priority: 3,
-        assigned: "Alex Urs-Badet",
-        creator: "Alex Urs-Badet",
-        time: "10:31 PM"
-    }))
+    // Convert the response data into bugModel objects
+    const bugs = data.map((bug) => new bugModel(bug));
 
-    data.push(new bugModel({
-        id: 546745,
-        name: "Edit Button bug",
-        description: "Edit button does not display the edit bug page",
-        steps: "Press the edit button in the top left of the bug card",
-        version: "1.0",
-        priority: 3,
-        assigned: "Alex Urs-Badet",
-        creator: "Alex Urs-Badet",
-        time: "10:26 PM"
-    }))
+    // Sort the bugs by priority
+    bugs.sort((a, b) => a.priority - b.priority);
 
-    let sorted = data.sort((a, b) => { return a.priority - b.priority; })
-    sorted = JSON.stringify(data);
-    return sorted;
+    return bugs;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }

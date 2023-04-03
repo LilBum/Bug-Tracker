@@ -8,6 +8,7 @@
     position: absolute;
     z-index: 10;
     padding: 1% 5%;
+    margin-left: 100px;
 }
 
 .bug-create h1 {

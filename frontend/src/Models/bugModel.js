@@ -1,15 +1,23 @@
-export default bugs;
-
-function bugs(bug) {
-    if (bug !== undefined) {
-        this.id = bug.id;
-        this.name = bug.name;
-        this.description = bug.description;
-        this.steps = bug.steps;
-        this.version = bug.version;
-        this.priority = bug.priority;
-        this.assigned = bug.assigned;
-        this.creator = bug.creator;
-        this.time = bug.time;
-    }
+class bugs {
+  constructor({
+    name = '',
+    description = '',
+    steps = '',
+    priority = 1,
+    assigned = '',
+    version = '',
+    creator = '',
+    timeCreated = new Date(),
+  }) {
+    this.name = name;
+    this.description = description;
+    this.steps = steps;
+    this.priority = priority;
+    this.assigned = assigned;
+    this.version = version;
+    this.creator = creator;
+    this.timeCreated = timeCreated;
+  }
 }
+
+export default bugs;
