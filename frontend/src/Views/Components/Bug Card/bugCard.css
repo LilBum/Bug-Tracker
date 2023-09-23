@@ -1,26 +1,39 @@
+/* Apply common styles to the body element */
 body {
-    overflow-y:scroll;
+  overflow-y: scroll;
+  font-family: Arial, sans-serif; /* Add a default font-family */
+  margin: 0; /* Reset margin to eliminate unwanted space */
+  padding: 0; /* Reset padding to eliminate unwanted space */
 }
 
+/* Create a reusable variable for card shadow color */
+:root {
+  --card-shadow: 2px 2px 2px var(--prime-color);
+}
+
+/* Style for bug cards */
 .bug-card {
-    background: var(--card-color);
-    box-shadow: 2px 2px 2px var(--prime-color);
-    text-align: center;
-    margin: 10px;
+  border-radius: 5px;
+    background-color: var(--card-color);
     min-width: 275px;
     min-height: 200px;
-    margin-top: 2%;
-    margin-right: -150px;
-    margin-left: 90px;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 2px 2px 2px 2px var(--prime-color);
 }
 
 .bug-card:hover {
-    transition: all 0.3s;
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
+/* Style for bug container */
 .bug-container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-basis: calc(26.5% - 20px);
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: calc(26.5% - 20px);
+  margin-right: 50px;
 }

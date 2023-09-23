@@ -9,7 +9,7 @@ require('dotenv').config();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3500',
 };
 
 app.use(cors(corsOptions));
@@ -19,7 +19,7 @@ mongoose.connect(process.env.DB_URL, (err) => {
   if (!err) {
     console.log('Connected to MongoDB');
   } else {
-    console.log(err);
+    console.log('MongoDB Connection Error:', err);
   }
 });
 
@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRoutes);
-app.use('/api/bugs', bugsRoutes);
+app.use('/api/bugs', bugsRoutes); // Add this line to include bugsRoutes
 
 app.listen(PORT, () => {
   console.log('Server is running on port ' + PORT);

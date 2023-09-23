@@ -4,19 +4,10 @@ const mongoose = require('mongoose');
 
 // Define the routes
 
-// Retrieve all bugs
-router.get('/', async (req, res) => {
-  try {
-    const bugs = await Bug.find();
-    res.json(bugs);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
 // Get a specific bug by id
 router.get('/:id', async (req, res) => {
+  console.log('Fetching bug with ID:', req.params.id);
+
   try {
     const bug = await Bug.findById(req.params.id);
 
@@ -26,7 +17,19 @@ router.get('/:id', async (req, res) => {
 
     res.status(200).json(bug);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: err.message });
+  }
+});
+
+// Retrieve all bugs
+router.get('/', async (req, res) => {
+  try {
+    const bugs = await Bug.find();
+    res.json(bugs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
@@ -50,7 +53,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a bug
-router.patch('/:id', async (req, res) => {
+router.patch('/bugId', async (req, res) => {
   const { id } = req.params;
   const { name, description, steps, priority, assigned, version, completed } =
     req.body;

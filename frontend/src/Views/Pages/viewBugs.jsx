@@ -11,7 +11,7 @@ export default function BugsPage() {
 
   useEffect(() => {
     dispatch(fetchBugs());
-  }, [bugs.length]);
+  }, [bugs]);
 
   function bugClicked(name) {
     setDisplayedBugs((prevState) => {
@@ -30,16 +30,23 @@ export default function BugsPage() {
 
   return (
     <div className="page-container">
-      {bugs.map((bug, key) => (
-        <BugCard key={key} bug={bug} clicked={bugClicked} />
-      ))}
-      {displayedBugs.map((displayedBug) => (
-        <BugView
-          key={displayedBug.name}
-          clicked={() => bugClicked(displayedBug.name)}
-          bug={bugs.find((bug) => bug.name === displayedBug.name)}
+      {bugs.map((bug) => (
+        <BugCard
+          key={bug.name}
+          bug={bug}
+          clicked={() => bugClicked(bug.name)}
         />
       ))}
+      {displayedBugs.map((displayedBug) => {
+        const bug = bugs.find((bug) => bug.name === displayedBug.name);
+        return (
+          <BugView
+            key={displayedBug.name}
+            clicked={() => bugClicked(displayedBug.name)}
+            bug={bug}
+          />
+        );
+      })}
     </div>
   );
 }

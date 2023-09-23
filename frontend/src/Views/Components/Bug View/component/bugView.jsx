@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ViewSection from './bugViewSection';
-import BugModel from '../../../../Models/bugModel';
 import './bugView.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,14 +18,17 @@ export default (props) => {
 
   useEffect(() => {
     dispatch(fetchBugs()); // fetch all bugs and add them to the store
-  }, [dispatch]);
+  }, []);
 
   async function fetchBug(bugId) {
     try {
-      const response = await fetch(`http://localhost:3500/api/bugs/${bugId}`);
+      const response = await fetch(
+        `http://localhost:3500/api/bugs/${String(bugId)}`
+      );
+      console.log(response);
       const data = await response.json();
       console.log(data); // log the data received
-      setBug(new BugModel(data));
+      setBug(data); // update the bug state directly with the received data
     } catch (error) {
       console.error(error); // log any errors that occur
     }
@@ -36,16 +38,11 @@ export default (props) => {
     if (bugs.length > 0) {
       setBug(bugs[0]);
     }
-  }, [bugs]);
-
-  function handleBugClick(clickedBug) {
-    fetchBug(clickedBug.id);
-  }
+  }, []);
 
   function editClicked() {
     setDisplayEdit(!displayEdit);
   }
-  function deleteClicked() {}
 
   if (!bug) {
     return <div>Loading bug...</div>;
@@ -54,18 +51,20 @@ export default (props) => {
   return (
     <>
       <div className="bug-view">
-        <EditPanel editClicked={editClicked} deleteClicked={deleteClicked} />
+        <EditPanel editClicked={editClicked} />
         <button onClick={props.clicked} className="close-btn">
           Close
         </button>
         <h1>{bug.name}</h1>
         <ViewSection title="Details" info={bug.description} />
+        <ViewSection title="Id" info={bug.id} />
         <ViewSection title="Steps" info={bug.steps} />
         <ViewSection title="Priority" info={bug.priority} />
         <ViewSection title="Creator" info={bug.creator} />
         <ViewSection title="App Version" info={bug.version} />
         <ViewSection title="Time Created" info={bug.time} />
         <button
+          className="mark-complete"
           onClick={() => {
             dispatch(markComplete(bug.id));
             fetchBug(bug.id);
@@ -80,10 +79,8 @@ export default (props) => {
       <div className="bug-list">
         <h2>All Bugs</h2>
         <ul>
-          {bugs.map((bug) => (
-            <li key={bug.id}>
-              <button onClick={() => handleBugClick(bug)}>{bug.id}</button>
-            </li>
+          {bugs.map((bugItem) => (
+            <div>{/* Render bug card content */}</div>
           ))}
         </ul>
       </div>

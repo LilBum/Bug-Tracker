@@ -29,3 +29,19 @@
     right: 0;
     top: 0;
 }
+
+.edit-btn {
+    position: absolute;
+    margin: 5px;
+    right: 0;
+    top: 0;
+
+}
+
+.delete-btn {
+    position: absolute;
+    margin: 5px;
+    right: 0;
+    top: 0;
+
+}
