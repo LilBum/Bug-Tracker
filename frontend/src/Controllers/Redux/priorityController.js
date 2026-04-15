@@ -1,10 +1,13 @@
-const colors = ["#b33a3a", "#ff6700", "#32cd32"]
+const colors = ['#b33a3a', '#ff6700', '#32cd32'];
+const levels = ['High', 'Medium', 'Low'];
 
-export default (priority) => {
-    const level = ["High", "Medium", "Low"]
-    return {
-        level: level[priority - 1],
-        color: colors[priority - 1]
-    }
+function PriorityController(priority) {
+  const index = Number(priority) - 1;
 
+  return {
+    level: levels[index] || 'Unknown',
+    color: colors[index] || '#333333',
+  };
 }
+
+export default PriorityController;

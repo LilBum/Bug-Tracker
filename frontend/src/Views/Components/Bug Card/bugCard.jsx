@@ -2,7 +2,7 @@ import React from 'react';
 import PriorityController from '../../../Controllers/Redux/priorityController';
 import './bugCard.css';
 
-export default (props) => {
+function BugCard(props) {
   const { name, priority, version } = props.bug;
   const { level, color } = PriorityController(priority);
 
@@ -19,4 +19,6 @@ export default (props) => {
       </div>
     </div>
   );
-};
+}
+
+export default BugCard;

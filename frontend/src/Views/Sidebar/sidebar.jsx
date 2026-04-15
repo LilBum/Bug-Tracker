@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../../Controllers/Redux/authSlice";
 import "./sidebar.css";
 
-export default () => {
+function Sidebar() {
     const dispatch = useDispatch();
     const { auth } = useSelector(state => state);
 
@@ -26,3 +26,5 @@ export default () => {
 
     )
 }
+
+export default Sidebar;

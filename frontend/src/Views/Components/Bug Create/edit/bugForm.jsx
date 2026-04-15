@@ -1,48 +1,64 @@
 import React, { useState } from 'react';
-import './bugForm.css';
+import { useDispatch } from 'react-redux';
+import { createBug, updateBug } from '../../../../Controllers/Redux/bugSlice';
 import BugModel from '../../../../Models/bugModel';
+import './bugForm.css';
+
+const emptyBug = new BugModel({
+  priority: 2,
+  assigned: 'Alex Urs-Badet',
+  version: '1.0.0',
+});
 
 export default function BugForm(props) {
-  const [bugObject, setBugObject] = useState(new BugModel(props.bug || {}));
+  const dispatch = useDispatch();
+  const isEditing = Boolean(props.bug?._id);
+  const [bugObject, setBugObject] = useState(
+    new BugModel(props.bug || emptyBug)
+  );
+  const [error, setError] = useState(null);
+  const [saved, setSaved] = useState(false);
 
   function inputChange(event) {
+    setSaved(false);
     setBugObject({
       ...bugObject,
       [event.target.name]: event.target.value,
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    const newBug = {
+    setError(null);
+    setSaved(false);
+
+    const bug = {
       name: bugObject.name,
       description: bugObject.description,
       steps: bugObject.steps,
-      priority: bugObject.priority,
+      priority: Number(bugObject.priority),
       assigned: bugObject.assigned,
       version: bugObject.version,
+      creator: bugObject.creator || 'Alex Urs-Badet',
     };
-    fetch('http://localhost:3500/api/bugs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newBug),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (props.history) {
-          props.history.push(`/bug/${data.id}`);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+    try {
+      if (isEditing) {
+        await dispatch(updateBug({ id: bugObject._id, bug })).unwrap();
+        props.close?.();
+      } else {
+        await dispatch(createBug(bug)).unwrap();
+        setBugObject(new BugModel(emptyBug));
+        setSaved(true);
+      }
+    } catch (submitError) {
+      setError(submitError.message);
+    }
   }
 
   return (
-    <div className="bug-create">
-      {props.title === 'Edit Bug' && (
+    <div className={`bug-create${isEditing ? ' bug-create--modal' : ''}`}>
+      {isEditing && (
         <button className="close-btn" onClick={props.close}>
           Close
         </button>
@@ -82,7 +98,7 @@ export default function BugForm(props) {
           name="priority"
           required
           onChange={inputChange}
-          value={bugObject.priority || ''}
+          value={bugObject.priority || 2}
         >
           <option value={1}>High</option>
           <option value={2}>Medium</option>
@@ -94,7 +110,7 @@ export default function BugForm(props) {
           name="assigned"
           required
           onChange={inputChange}
-          value={bugObject.assigned || ''}
+          value={bugObject.assigned || 'Alex Urs-Badet'}
         >
           <option value="Alex Urs-Badet">Alex Urs-Badet</option>
         </select>
@@ -107,7 +123,9 @@ export default function BugForm(props) {
           onChange={inputChange}
           value={bugObject.version || ''}
         />
-        <button type="submit">Submit Bug</button>
+        {error && <p className="form-error">{error}</p>}
+        {saved && <p className="form-success">Bug saved.</p>}
+        <button type="submit">{isEditing ? 'Save Bug' : 'Submit Bug'}</button>
       </form>
     </div>
   );

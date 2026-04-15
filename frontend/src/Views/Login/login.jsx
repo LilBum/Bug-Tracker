@@ -1,38 +1,54 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { signIn } from '../../Controllers/Redux/authSlice';
-import "./login.css";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../Controllers/Redux/authSlice';
+import './login.css';
 
-export default () => {
-    const dispatch = useDispatch();
+export default function Login() {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
 
-    const [formInput, setFormInput] = useState({
-        name: "",
-        password: ""
+  const [formInput, setFormInput] = useState({
+    email: '',
+    password: '',
+  });
+
+  function inputChanged(e) {
+    setFormInput({
+      ...formInput,
+      [e.target.name]: e.target.value,
     });
+  }
 
-    function inputChanged(e) {
-        setFormInput({
-            ...formInput,
-            [e.target.name]: e.target.value
+  function submit(e) {
+    e.preventDefault();
+    dispatch(loginUser(formInput));
+  }
 
-        })
-    }
-
-    function submit(e) {
-        dispatch(signIn(formInput));
-        e.preventDefault();
-    }
-
-    return (
-        <div className="loginBG">
-            <form className="login-panel">
-                <h1>Sign in</h1>
-                <input name="name" placeholder="Name" onChange={inputChanged} value={formInput.name}></input>
-                <input name="password" type="password" placeholder="Password" onChange={inputChanged}
-                    value={formInput.password}></input>
-                <button type="submit" onClick={submit}>Login</button>
-            </form>
-        </div>
-    )
+  return (
+    <div className="loginBG">
+      <form className="login-panel" onSubmit={submit}>
+        <h1>Sign in</h1>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          onChange={inputChanged}
+          value={formInput.email}
+          required
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          onChange={inputChanged}
+          value={formInput.password}
+          required
+        />
+        {error && <p className="login-error">{error}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
+    </div>
+  );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import './bugViewSection.css';
 
-export default (props) => {
+function BugViewSection(props) {
     return (
         <div className="view-section">
             <h2>{props.title}</h2>
@@ -9,3 +9,5 @@ export default (props) => {
         </div>
     );
 }
+
+export default BugViewSection;

@@ -1,50 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Card from '../../Components/Dashboard/card';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBugs } from '../../../Controllers/Redux/bugSlice';
+import Card from '../../Components/Dashboard/card';
 
-export default () => {
+export default function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const bugs = useSelector((state) => state.bugs.bugs);
-  const [highCount, setHighCount] = useState(0);
-  const [midCount, setMidCount] = useState(0);
-  const [lowCount, setLowCount] = useState(0);
 
   useEffect(() => {
     dispatch(fetchBugs());
-  }, []);
-
-  useEffect(() => {
-    if (bugs) {
-      const highPriorityBugs = filterBugs(1);
-      const midPriorityBugs = filterBugs(2);
-      const lowPriorityBugs = filterBugs(3);
-
-      setHighCount(highPriorityBugs.length);
-      setMidCount(midPriorityBugs.length);
-      setLowCount(lowPriorityBugs.length);
-    }
-  }, [bugs]);
+  }, [dispatch]);
 
   function redirect() {
     navigate('/viewbugs');
   }
 
-  function filterBugs(priority) {
-    if (bugs) {
-      return bugs.filter((bug) => bug.priority === priority);
-    } else {
-      return [];
-    }
+  function countByPriority(priority) {
+    return bugs.filter((bug) => Number(bug.priority) === priority).length;
   }
 
   return (
     <div className="page-container">
-      <Card priority="1" count={highCount} clicked={redirect} />
-      <Card priority="2" count={midCount} clicked={redirect} />
-      <Card priority="3" count={lowCount} clicked={redirect} />
+      <Card priority="1" count={countByPriority(1)} clicked={redirect} />
+      <Card priority="2" count={countByPriority(2)} clicked={redirect} />
+      <Card priority="3" count={countByPriority(3)} clicked={redirect} />
     </div>
   );
-};
+}

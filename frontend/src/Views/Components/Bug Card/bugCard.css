@@ -1,39 +1,45 @@
-/* Apply common styles to the body element */
-body {
-  overflow-y: scroll;
-  font-family: Arial, sans-serif; /* Add a default font-family */
-  margin: 0; /* Reset margin to eliminate unwanted space */
-  padding: 0; /* Reset padding to eliminate unwanted space */
+.bug-container {
+  flex: 1 1 260px;
+  max-width: 360px;
 }
 
-/* Create a reusable variable for card shadow color */
-:root {
-  --card-shadow: 2px 2px 2px var(--prime-color);
-}
-
-/* Style for bug cards */
 .bug-card {
-  border-radius: 5px;
-    background-color: var(--card-color);
-    min-width: 275px;
-    min-height: 200px;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 2px 2px 2px 2px var(--prime-color);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 6px solid currentColor;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(23, 33, 43, 0.08);
+  cursor: pointer;
+  display: grid;
+  gap: 12px;
+  min-height: 180px;
+  padding: 24px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .bug-card:hover {
-  transform: scale(1.05);
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
 }
 
-/* Style for bug container */
-.bug-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-basis: calc(26.5% - 20px);
-  margin-right: 50px;
+.bug-card .name {
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.bug-card .priority,
+.bug-card .version {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  .bug-container {
+    max-width: none;
+    width: 100%;
+  }
 }

@@ -1,47 +1,64 @@
 .bug-view {
-    position: absolute;
-    z-index: 10;
-    width: 60vw;
-    border: 1px solid black;
-    box-shadow: 2px 2px rgba(0, 0, 0, 0.705);
-    border-radius: 5px;
-    background-color: var(--prime-color);
-    margin: 1%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    color: black;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display: grid;
+  gap: 16px;
+  left: calc(var(--sidebar-width) + 36px);
+  max-height: calc(100vh - 72px);
+  max-width: 920px;
+  overflow-y: auto;
+  padding: 30px;
+  position: fixed;
+  right: 36px;
+  top: 36px;
+  z-index: 30;
 }
 
 .bug-view h1 {
-    min-width: 100%;
-    text-align: center;
-    padding-bottom: 10px;
-    margin-top: 25px;
-    border-bottom: 1px groove white;
-    color: white;
-    font-size: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 14px 0 4px;
+  overflow-wrap: anywhere;
+  padding-bottom: 18px;
+  text-align: left;
 }
 
-.close-btn {
-    position: absolute;
-    margin: 5px;
-    right: 0;
-    top: 0;
+.bug-view > p {
+  background: #fde6e1;
+  border: 1px solid #f5b6a9;
+  border-radius: 6px;
+  color: #9d2d1c;
+  margin: 0;
+  padding: 10px 12px;
 }
 
-.edit-btn {
-    position: absolute;
-    margin: 5px;
-    right: 0;
-    top: 0;
-
+.bug-view .close-btn {
+  position: absolute;
+  right: 16px;
+  top: 16px;
 }
 
-.delete-btn {
-    position: absolute;
-    margin: 5px;
-    right: 0;
-    top: 0;
+.mark-complete {
+  justify-self: start;
+  margin-top: 4px;
+}
 
+@media (max-width: 800px) {
+  .bug-view {
+    left: 16px;
+    max-height: calc(100vh - 190px);
+    padding: 22px;
+    right: 16px;
+    top: 154px;
+  }
+
+  .bug-view h1 {
+    font-size: 1.55rem;
+    padding-right: 90px;
+  }
 }

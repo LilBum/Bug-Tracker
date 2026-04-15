@@ -1,50 +1,120 @@
 .bug-create {
-    width: 60vw;
-    background-color: var(--prime-color);
-    display: flex;
-    flex-wrap: wrap;
-    margin: auto;
-    border-radius: 5px;
-    position: absolute;
-    z-index: 10;
-    padding: 1% 5%;
-    margin-left: 100px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  max-width: 900px;
+  padding: 32px;
+  position: relative;
+  width: 100%;
 }
 
 .bug-create h1 {
-    min-width: 100%;
-    text-align: center;
-    font-size: 2.5rem;
-    border-bottom: 1px groove white;
+  border-bottom: 1px solid var(--border);
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 24px;
+  padding-bottom: 18px;
 }
 
 .bug-create form {
-    min-width: 80%;
-    display: grid;
-    grid-template-columns: 30% 70%;
-    column-gap: 20px;
-    row-gap: 20px;
+  display: grid;
+  gap: 16px 20px;
+  grid-template-columns: 180px minmax(0, 1fr);
 }
 
 .bug-create label {
-    text-align: right;
-    font-size: 1.5rem;
+  align-self: center;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-align: right;
 }
 
 .bug-create input,
-textarea,
-select {
-    border-radius: 5px;
-    border: none;
+.bug-create textarea,
+.bug-create select {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  min-height: 44px;
+  padding: 10px 12px;
+  width: 100%;
 }
 
-.bug-create button {
-    grid-column: 2;
+.bug-create textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.bug-create button[type="submit"] {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.form-error,
+.form-success {
+  border-radius: 6px;
+  grid-column: 2;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.form-error {
+  background: #fde6e1;
+  border: 1px solid #f5b6a9;
+  color: #9d2d1c;
+}
+
+.form-success {
+  background: #e4f5ef;
+  border: 1px solid #a8dac8;
+  color: #166044;
 }
 
 .close-btn {
-    position: absolute;
-    margin: 5px;
-    right: 0;
-    top: 0;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
+.bug-create--modal {
+  left: calc(var(--sidebar-width) + 72px);
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  position: fixed;
+  right: 72px;
+  top: 48px;
+  width: auto;
+  z-index: 40;
+}
+
+@media (max-width: 800px) {
+  .bug-create {
+    padding: 24px;
+    width: 100%;
+  }
+
+  .bug-create--modal {
+    left: 16px;
+    max-height: calc(100vh - 190px);
+    right: 16px;
+    top: 154px;
+    width: auto;
+  }
+
+  .bug-create form {
+    grid-template-columns: 1fr;
+  }
+
+  .bug-create label {
+    text-align: left;
+  }
+
+  .bug-create button[type="submit"],
+  .form-error,
+  .form-success {
+    grid-column: 1;
+  }
 }

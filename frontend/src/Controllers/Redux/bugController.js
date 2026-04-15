@@ -1,9 +1,9 @@
 import bugModel from '../../Models/bugModel';
+import { request } from '../api';
 
 export async function getAllBugs() {
   try {
-    const response = await fetch('/api/bug');
-    const data = await response.json();
+    const data = await request('/api/bugs');
 
     // Convert the response data into bugModel objects
     const bugs = data.map((bug) => new bugModel(bug));

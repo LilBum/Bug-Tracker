@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "serve": "nodemon server.js",
+    "test": "node --check server.js && node --check Controller/Routes/auth.js && node --check Controller/Routes/bugs.js && node --check Model/userModel.js"
   },
   "author": "",
   "license": "ISC",

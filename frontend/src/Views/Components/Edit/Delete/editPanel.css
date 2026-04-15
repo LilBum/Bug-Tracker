@@ -1,6 +1,21 @@
 .edit-panel {
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 10px;
+  display: flex;
+  gap: 10px;
+  padding-right: 96px;
+}
+
+.edit-panel button {
+  background: var(--primary);
+}
+
+.edit-panel button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-panel button:last-child {
+  background: #9d2d1c;
+}
+
+.edit-panel button:last-child:hover {
+  background: #732113;
 }

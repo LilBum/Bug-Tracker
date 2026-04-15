@@ -3,7 +3,7 @@ import "./card.css";
 import Priority from "../../../Controllers/Redux/priorityController";
 
 
-export default (props) => {
+function DashboardCard(props) {
     const { level, color } = Priority(props.priority);
 
     return (
@@ -16,3 +16,5 @@ export default (props) => {
     )
 
 }
+
+export default DashboardCard;

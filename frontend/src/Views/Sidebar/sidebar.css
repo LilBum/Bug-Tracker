@@ -1,41 +1,81 @@
 .sidebar {
-    position: fixed;
-    width: 20%;
-    height: 101vh;
-    background-color: grey;
-    text-align: center;
-    margin-left: -10px;
-    margin-top: -7.9px;
-  }
-  
-  .sidebar li {
-    padding: 10px;
-    font-size: 1.5rem;
-    border-bottom: 1px groove black;
-  }
-  
-  .sidebar li:hover {
-    transition: all 0.3s;
-    background-color: #f17105;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .nav-link {
-    text-decoration: none;
-    color: white;
-  }
-  
-  .logout {
-    position: absolute;
-    bottom: -10px; /* Adjust the position of the logout button */
-    left: 0;
+  background: #183f3c;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  height: 100vh;
+  left: 0;
+  padding: 28px 20px;
+  position: fixed;
+  top: 0;
+  width: var(--sidebar-width);
+  z-index: 20;
+}
+
+.sidebar ul {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 0;
+}
+
+.nav-link {
+  align-items: center;
+  border-radius: 6px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 14px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar li .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  transform: translateX(2px);
+}
+
+.logout {
+  margin-top: auto;
+  width: 100%;
+}
+
+.brand {
+  font-size: 1.75rem;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    height: auto;
+    padding: 16px;
+    right: 0;
     width: 100%;
   }
-  
-  .brand {
-    font-size: 2.2rem;
+
+  .sidebar ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .brand {
+    font-size: 1.35rem;
+  }
+
+  .nav-link {
+    min-height: 38px;
+    padding: 8px;
+  }
+
+  .logout {
+    margin-top: 0;
+  }
+}

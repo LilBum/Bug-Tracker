@@ -1,4 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { request } from '../api';
+
+export const fetchBugs = createAsyncThunk('bugs/fetchBugs', async () => {
+  return request('/api/bugs');
+});
+
+export const createBug = createAsyncThunk('bugs/createBug', async (bug) => {
+  return request('/api/bugs', {
+    method: 'POST',
+    body: JSON.stringify(bug),
+  });
+});
+
+export const updateBug = createAsyncThunk(
+  'bugs/updateBug',
+  async ({ id, bug }) => {
+    return request(`/api/bugs/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(bug),
+    });
+  }
+);
+
+export const completeBug = createAsyncThunk('bugs/completeBug', async (id) => {
+  return request(`/api/bugs/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ completed: true }),
+  });
+});
+
+export const deleteBug = createAsyncThunk('bugs/deleteBug', async (id) => {
+  await request(`/api/bugs/${id}`, {
+    method: 'DELETE',
+  });
+
+  return id;
+});
 
 export const bugSlice = createSlice({
   name: 'bugs',
@@ -18,28 +55,51 @@ export const bugSlice = createSlice({
       state.error = action.payload;
     },
     markComplete: (state, action) => {
-      const bugIndex = state.bugs.findIndex((bug) => bug.id === action.payload);
+      const bugIndex = state.bugs.findIndex((bug) => bug._id === action.payload);
+
       if (bugIndex !== -1) {
-        state.bugs[bugIndex].status = 'Completed';
+        state.bugs[bugIndex].completed = true;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchBugs.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBugs.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bugs = action.payload;
+      })
+      .addCase(fetchBugs.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(createBug.fulfilled, (state, action) => {
+        state.bugs.unshift(action.payload);
+      })
+      .addCase(updateBug.fulfilled, (state, action) => {
+        const index = state.bugs.findIndex((bug) => bug._id === action.payload._id);
+
+        if (index !== -1) {
+          state.bugs[index] = action.payload;
+        }
+      })
+      .addCase(completeBug.fulfilled, (state, action) => {
+        const index = state.bugs.findIndex((bug) => bug._id === action.payload._id);
+
+        if (index !== -1) {
+          state.bugs[index] = action.payload;
+        }
+      })
+      .addCase(deleteBug.fulfilled, (state, action) => {
+        state.bugs = state.bugs.filter((bug) => bug._id !== action.payload);
+      });
   },
 });
 
 export const { setBugs, setLoading, setError, markComplete } = bugSlice.actions;
-
-export const fetchBugs = () => async (dispatch) => {
-  dispatch(setLoading(true));
-  try {
-    const response = await fetch(`http://localhost:3500/api/bugs/`);
-    const data = await response.json();
-    dispatch(setBugs(data));
-  } catch (error) {
-    dispatch(setError(error.message));
-  } finally {
-    dispatch(setLoading(false));
-  }
-};
 
 export const selectBugs = (state) => state.bugs.bugs;
 

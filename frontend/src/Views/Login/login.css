@@ -1,42 +1,66 @@
 .loginBG {
-    width: 100vw;
-    height: 105vh;
-    background: url("../../images/bg3.png");
-    background-size: cover;
-    margin-left: -1.4vh;
-    margin-top: -20px;
-    background-attachment: fixed;
-    position: absolute;
+  align-items: center;
+  background-image: linear-gradient(rgba(12, 34, 31, 0.45), rgba(12, 34, 31, 0.45)),
+    url("../../images/bg3.png");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  padding: 24px;
 }
 
 .login-panel {
-    background-color: var(--prime-color);
-    width: 30vw;
-    border: 1px solid grey;
-    border-radius: 5px;
-    margin: 25vh auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
+  background-color: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display: grid;
+  gap: 14px;
+  margin: 0 auto;
+  max-width: 420px;
+  padding: 34px;
+  text-align: left;
+  width: 100%;
 }
 
 .login-panel h1 {
-    width: 100%;
+  font-size: 2rem;
+  line-height: 1.1;
+  margin: 0 0 8px;
 }
 
 .login-panel input {
-    width: 70%;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    margin: 10px;
-    padding-left: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  min-height: 46px;
+  padding: 0 14px;
+  width: 100%;
 }
 
-body {
-    overflow-y: hidden;
-    /* Hide vertical scrollbar */
-    overflow-x: hidden;
-    /* Hide horizontal scrollbar */
+.login-panel input::placeholder {
+  color: var(--text-muted);
+}
+
+.login-panel button {
+  margin-top: 6px;
+  min-height: 46px;
+  width: 100%;
+}
+
+.login-error {
+  background: #fde6e1;
+  border: 1px solid #f5b6a9;
+  border-radius: 6px;
+  color: #9d2d1c;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+@media (max-width: 480px) {
+  .login-panel {
+    padding: 24px;
+  }
 }

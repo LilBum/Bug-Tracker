@@ -1,47 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { completeBug, deleteBug } from '../../../../Controllers/Redux/bugSlice';
+import EditBug from '../../Bug Create/edit/bugForm';
+import EditPanel from '../../Edit/Delete/editPanel';
 import ViewSection from './bugViewSection';
 import './bugView.css';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  markComplete,
-  fetchBugs,
-  selectBugs,
-} from '../../../../Controllers/Redux/bugSlice';
-import EditPanel from '../../Edit/Delete/editPanel';
-import EditBug from '../../Bug Create/edit/bugForm';
 
-export default (props) => {
+export default function BugView(props) {
   const dispatch = useDispatch();
-  const bugs = useSelector(selectBugs);
-  const [bug, setBug] = useState(null);
   const [displayEdit, setDisplayEdit] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchBugs()); // fetch all bugs and add them to the store
-  }, []);
-
-  async function fetchBug(bugId) {
-    try {
-      const response = await fetch(
-        `http://localhost:3500/api/bugs/${String(bugId)}`
-      );
-      console.log(response);
-      const data = await response.json();
-      console.log(data); // log the data received
-      setBug(data); // update the bug state directly with the received data
-    } catch (error) {
-      console.error(error); // log any errors that occur
-    }
-  }
-
-  useEffect(() => {
-    if (bugs.length > 0) {
-      setBug(bugs[0]);
-    }
-  }, []);
+  const [error, setError] = useState(null);
+  const { bug } = props;
 
   function editClicked() {
     setDisplayEdit(!displayEdit);
+  }
+
+  async function handleDelete() {
+    setError(null);
+
+    try {
+      await dispatch(deleteBug(bug._id)).unwrap();
+      props.onDeleted?.();
+    } catch (deleteError) {
+      setError(deleteError.message);
+    }
+  }
+
+  async function handleComplete() {
+    setError(null);
+
+    try {
+      await dispatch(completeBug(bug._id)).unwrap();
+    } catch (completeError) {
+      setError(completeError.message);
+    }
   }
 
   if (!bug) {
@@ -51,39 +44,33 @@ export default (props) => {
   return (
     <>
       <div className="bug-view">
-        <EditPanel editClicked={editClicked} />
+        <EditPanel editClicked={editClicked} deleteBug={handleDelete} />
         <button onClick={props.clicked} className="close-btn">
           Close
         </button>
         <h1>{bug.name}</h1>
+        {error && <p>{error}</p>}
         <ViewSection title="Details" info={bug.description} />
-        <ViewSection title="Id" info={bug.id} />
+        <ViewSection title="Id" info={bug._id} />
         <ViewSection title="Steps" info={bug.steps} />
         <ViewSection title="Priority" info={bug.priority} />
+        <ViewSection title="Assigned" info={bug.assigned} />
         <ViewSection title="Creator" info={bug.creator} />
         <ViewSection title="App Version" info={bug.version} />
-        <ViewSection title="Time Created" info={bug.time} />
-        <button
-          className="mark-complete"
-          onClick={() => {
-            dispatch(markComplete(bug.id));
-            fetchBug(bug.id);
-          }}
-        >
-          Mark Complete
-        </button>
+        <ViewSection
+          title="Time Created"
+          info={bug.createdAt ? new Date(bug.createdAt).toLocaleString() : ''}
+        />
+        <ViewSection title="Completed" info={bug.completed ? 'Yes' : 'No'} />
+        {!bug.completed && (
+          <button className="mark-complete" onClick={handleComplete}>
+            Mark Complete
+          </button>
+        )}
       </div>
       {displayEdit && (
-        <EditBug title="Edit Bug" bug={bug} close={editClicked} />
+        <EditBug key={bug._id} title="Edit Bug" bug={bug} close={editClicked} />
       )}
-      <div className="bug-list">
-        <h2>All Bugs</h2>
-        <ul>
-          {bugs.map((bugItem) => (
-            <div>{/* Render bug card content */}</div>
-          ))}
-        </ul>
-      </div>
     </>
   );
-};
+}
